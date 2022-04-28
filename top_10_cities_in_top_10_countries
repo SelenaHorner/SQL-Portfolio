@@ -1,0 +1,17 @@
+--- top 10 cities in top 10 countries in terms of customer numbers
+SELECT
+	city,
+	country,
+	COUNT (DISTINCT customer_id) AS number_of_customers
+FROM
+	customer 
+	INNER JOIN address
+		ON customer.address_id = address.address_id
+	INNER JOIN city
+		ON city.city_id = address.city_id
+	INNER JOIN country
+		ON country.country_id = city.country_id
+WHERE country IN ('India', 'China', 'United States', 'Japan', 'Mexico', 'Brazil', 'Russian Federation', 'Philippines','Turkey','Indonesia')
+GROUP BY city, country
+ORDER BY number_of_customers DESC
+LIMIT 10;
