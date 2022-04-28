@@ -1,0 +1,25 @@
+--- top 5 customers in the top 10 cities within the top 10 countries
+SELECT
+	payment.customer_id,
+	customer.first_name,
+	customer.last_name,
+	country.country,
+	city.city,
+	SUM (payment.amount) AS total_paid
+	
+FROM
+	payment
+	INNER JOIN customer 
+		ON payment.customer_id = customer.customer_id
+	INNER JOIN address
+		ON customer.address_id = address.address_id
+	INNER JOIN city
+		ON city.city_id = address.city_id
+	INNER JOIN country
+		ON country.country_id = city.country_id
+WHERE country IN ('India', 'China', 'United States', 'Japan', 'Mexico', 'Brazil', 'Russian Federation', 'Philippines','Turkey','Indonesia')
+AND
+city IN ('Aurora', 'Adoni', 'Allende', 'Akishima', 'Akron', 'Allappuzha (Alleppey)', 'Ahmadnagar', 'Alvorada', 'Ambattur','Adana')
+GROUP BY payment.customer_id, customer.first_name, customer.last_name, country.country, city.city
+ORDER BY total_paid DESC
+LIMIT 5;
